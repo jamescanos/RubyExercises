@@ -27,14 +27,12 @@ class Temperature
 
             # get Fashrenheit degrees from user
             degFah = gets.chomp
-            #degreesVal = (5*(Float(degFah) - 32))/9
+            #(Tf − 32) × 5/9 = Tc
             totalCelsius = ((Float(degFah) - 32) * 5/9)
     
             print "#{degFah} degrees Fahrenheit is equal to #{totalCelsius} degrees Celsius"
         
-        else print "Input was not recognized as 1 or 2
-            Type '1' to convert from Celsius to Fahrenheit
-            OR Type '2' to convert from Fahrenheit to Celsius \n "
+        else print "Invalid Option, Type '1' to convert from C to F, '2' to convert from F to C \n "
         
         end
 
