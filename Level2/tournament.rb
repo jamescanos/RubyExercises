@@ -44,9 +44,9 @@ class Tournament
         for i in teamsname do
             #puts "Games #{i}"
             for j in teamsname do
-                # Valida que no sea el mismo elemento
+                # Can't fixture games with itself
                 if(i != j)
-                    # No debe hacer fixture de juegos ya programados
+                    # Can't schedule games played before
                     if(j > i)
                         puts "\nTeam #{i} vs Team #{j}"
                         #matches.push(gets.chomp)
