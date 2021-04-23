@@ -2,7 +2,8 @@ class Temperature
 
     def ConverterTemp()
         
-        print "Type '1' to convert from Celsius to Fahrenheit
+        print "Temperature Converter - 
+            Type '1' to convert from Celsius to Fahrenheit
             Type '2' to convert from Fahrenheit to Celsius \n"
         
         # option selected
