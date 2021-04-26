@@ -42,8 +42,7 @@ class Tournament
         #    puts "Register teams #{teamsname.at(i)}"
         #    puts "Team #{teamsname.at(0)} vs Team #{teamsname.at(i)}"
         #end
-        
-        
+
         for i in teamsname do
             #puts "Games #{i}"
             for j in teamsname do
@@ -59,56 +58,82 @@ class Tournament
                 end
             end
         end
-        hash = Hash.new { |h, k| h[k] = h.dup.clear }
-        x=0
+
+        def joinresults(hash, list, value = nil)
+            # Snip off the last element
+            *list, tail = list
+          
+            # Iterate through the elements in the path...
+            final = list.inject(hash) do |h, k|
+              # ...and populate with a hash if necessary.
+              h[k] ||= { }
+            end
+          
+            # Add on the final value
+            final[tail] = value
+          
+            hash
+        end
+
         matches.each_with_index do |(key, value), i|
             #puts "k: #{key}, v: #{value}" 
             couple = key.split("*")
             gameresult = value.split("*")
             
             if(gameresult[0].to_i > gameresult[1].to_i)
-                #score.store("#{x}", :description=>'games', :"#{couple[0]}"=>@WIN.to_i, :"#{couple[1]}"=>@LOSE.to_i)
-                pointsgamea = @WIN
-                pointsgameb = @LOSE
+                score.store("#{couple[0]}*#{couple[1]}", "#{@WIN}*#{@LOSE}")
             elsif(gameresult[0].to_i == gameresult[1].to_i)
-                #score.store("#{x}", :description=>'games', :"#{couple[0]}"=>@DRAW.to_i, :"#{couple[1]}"=>@DRAW.to_i)
-                pointsgamea = @DRAW
-                pointsgameb = @DRAW
+                score.store("#{couple[0]}*#{couple[1]}", "#{@DRAW}*#{@DRAW}")
             else
-                #score.store("#{x}", :description=>'games', :"#{couple[0]}"=>@LOSE.to_i, :"#{couple[1]}"=>@WIN.to_i)
-                pointsgamea = @LOSE
-                pointsgameb = @WIN
+                score.store("#{couple[0]}*#{couple[1]}", "#{@LOSE}*#{@WIN}")
             end
-            score.store("#{x}", :description=>'games', :"#{couple[0]}"=>pointsgamea, :"#{couple[1]}"=>pointsgameb)
-            x+=1
+
         end
-        
+        points,newpoints = 0
         score.each_with_index do |(key, value), i|
+            #puts "k: #{key}, v: #{value}, i: #{i}" 
+            team = key.split("*")
+            teampoints = value.split("*")
+            #print "Team 0: #{team[0]}-#{teampoints[0]}\n"   
+            #print "Team 1: #{team[1]}-#{teampoints[1]}\n" 
+            h = allresults.push([team[0]<<"#{i}", teampoints[0]])
+            g = allresultsb.push([team[1]<<"#{i}", teampoints[1]])
+             
+            # Join Hashes
+            arrorder = Hash[h].merge!(Hash[g]){|k,a,b|h+g}.to_a
+
+        end
+
+        oldval, newoldval = 0
+        arrorder.each_with_index do |(key, value), i|
+
             #puts "k: #{key}, v: #{value}" 
-            puts score.inspect
+            
+            #key = key.split('').last
+            key = key[/\A.{#{key.size-1}}/] #=> "stri"
+            #puts "#{key} => #{value}"
+            teamold = key
+            oldval = value
+
+            if(key == teamold)
+                #value = oldval.to_i + value.to_i
+                ending.push([key, value])
+            end
+
+            
+            #ending.store("#{key}", "#{key}" << "#{value}")
+            #details[key] = allresults[key].to_i + allresults[key].to_i
+ 
         end
 
-        array_of_hashes = [
-        {description: 'small', a: 1, b: 0.2, c: 0.3},
-        {description: 'large', a: 100, b: 200, c: 300},
-        {description: 'small', a: 4, b: 0.5, c: 0.6},
-        {description: 'large', a: 400, b: 500, c: 600},
-        {description: 'unique', a: 'hi', b: true, c: false},
-        ]
-
-        answer = array_of_hashes.group_by {|h| h[:description]}.values
-        answer.map! {|first, *rest|
-        if rest.empty?
-            first
-        else
-            first.dup.tap {|sum|
-            rest.each {|h| sum[:b] += h[:b]; sum[:c] += h[:c]}}
+        ending.each_with_index do |(key, value), i|
+            puts "k: #{key}, v: #{value}" 
         end
-        }
 
-        #score.select { |key, val| key == "games" }
-
-        #score.replace( [{ score.first.keys.first => score.reduce(0) {|s, v| s + v.values.first.to_i } }] )
+        #ending.group_by { |h| ending.keys.first }.map do |k, v| 
+        #    Hash[k, v.reduce(0) { |acc, n| acc + n.values.first.to_i }]
+        #end 
+        
 
     end
 
