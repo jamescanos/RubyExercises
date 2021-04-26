@@ -34,6 +34,8 @@ class Name
   jacob.first = 'Mary Sue'  
   jacob.full_name # => "Mary Sue Berendes"  
   john = Name.new('john', 'von Neumann')  
+
+  
   john.full_name # => "John von Neumann"  
   john.first = 'john'  
   john.first # => "John"  
