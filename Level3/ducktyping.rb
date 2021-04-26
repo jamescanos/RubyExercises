@@ -4,16 +4,16 @@ class Duck
     end  
     
     def swim  
-      'Paddle paddle paddle...'  
+      'Duck Paddle paddle paddle...'  
     end  
   end  
     
   class Goose  
     def honk  
-      'Honk!'  
+      'Goose Honk!'  
     end  
     def swim  
-      'Splash splash splash...'  
+      'Goose Splash splash splash...'  
     end  
   end  
     
@@ -23,7 +23,7 @@ class Duck
   end  
     
     def play  
-      'Quack!'  
+      'Quack Quack!'  
     end  
 end  
     
