@@ -1,49 +1,55 @@
 class Tournament
+    
+    attr_accessor :teamsname, :count, :pointsgamea, :pointsgameb, :matches, :score, :score2, :team_count
 
-    def teams()
-        
+    def initialize()
+        # Constants 
         @WIN = 3
         @DRAW = 1
-        @LOSE = 0        
+        @LOSE = 0 
+        
+        @team_count = 0
+        @count = 0
+        @pointsgamea = 0
+        @pointsgameb = 0
+        @teamsname = []
+        @matches = {}
+        @score = {}
+        @score2 = {}
+        
+    end
 
-        puts "\n########### Football Tournament ###########\n"
-        puts "\nInstruction: You must entering how many teams will play the tournament. 
-             Each team should have a name and all the teams will play against each other 
-             If a team wins the match, it receives 3 points, if it ties it receives 1 point,
-             and if it loses, it receives no points"
-        puts "\n###########################################\n"
-        puts "\nHow many Teams will you be entering?"                
+    def teams()
 
+        puts "\n########### Football Tournament ###########\n
+              \nInstruction: You must entering how many teams will play the tournament. 
+              Each team should have a name and all the teams will play against each other 
+              If a team wins the match, it receives 3 points, if it ties it receives 1 point,
+              and if it loses, it receives no points
+              \n###########################################\n
+              \nHow many Teams will you be entering?"
+        
         team_count = gets.chomp.to_i
-        teamsname = []
-        count = 0
-        #matches = []
-        matches = {}
-        score = {}
-        matchpoints = 0
-        pointsold = 0
-        allresults = [] 
-        allresultsb = []
-        arrorder =[]
-        ending = []
-
-        puts "\n########### Teams ###########"
 
         while team_count != count
             puts "\nName of Team #{count + 1}?" 
             teamsname.push(gets.chomp)
-            count = count + 1
+            @count = count + 1
         end
+            
+    end
 
-        puts "\n########### Team Matches ###########"
-        puts "\nPlease enter Match result separated by asterisk (*). Ex: 2*1, 0*1, 1*1 "
+    def schedule
+
+        puts "\n########### Team Matches ###########
+              \nPlease enter Match result separated by asterisk (*). Ex: 2*1, 0*1, 1*1 "
+
         # Show teams in Tournament
         #teamsname.each_with_index do |team, i|
         #    puts "Register teams #{teamsname.at(i)}"
         #    puts "Team #{teamsname.at(0)} vs Team #{teamsname.at(i)}"
-        #end
-        
-        
+        #end  
+
         for i in teamsname do
             #puts "Games #{i}"
             for j in teamsname do
@@ -59,12 +65,15 @@ class Tournament
                 end
             end
         end
-        hash = Hash.new { |h, k| h[k] = h.dup.clear }
+
         x=0
+        sum = 0
+
         matches.each_with_index do |(key, value), i|
-            #puts "k: #{key}, v: #{value}" 
+            puts "k: #{key}, v: #{value}" 
             couple = key.split("*")
             gameresult = value.split("*")
+            #puts "Cou: #{couple}, GR: #{gameresult}" 
             
             if(gameresult[0].to_i > gameresult[1].to_i)
                 #score.store("#{x}", :description=>'games', :"#{couple[0]}"=>@WIN.to_i, :"#{couple[1]}"=>@LOSE.to_i)
@@ -79,36 +88,34 @@ class Tournament
                 pointsgamea = @LOSE
                 pointsgameb = @WIN
             end
-            score.store("#{x}", :description=>'games', :"#{couple[0]}"=>pointsgamea, :"#{couple[1]}"=>pointsgameb)
+            #score.store("#{x}", :description=>'games', :"#{couple[0]}"=>pointsgamea, :"#{couple[1]}"=>pointsgameb)
+            puts "#{pointsgamea} + #{pointsgameb}"
+            #score.store("#{x}", :"#{couple[0]}"=>pointsgamea)
+            #score2.store("#{x}", :"#{couple[1]}"=>pointsgameb)
+            score.store("#{x}", "#{couple[0]}"=>pointsgamea, "#{couple[1]}"=>pointsgameb)
             x+=1
         end
         
-        score.each_with_index do |(key, value), i|
-            #puts "k: #{key}, v: #{value}" 
-            puts score.inspect
-        end
+        #score.to_a
+        
+        #newscore = score.merge(score2) {|key, old_val, new_val| old_val < new_val ? old_val : new_val}
+        #newscore = score.merge(score2)
 
-        array_of_hashes = [
-        {description: 'small', a: 1, b: 0.2, c: 0.3},
-        {description: 'large', a: 100, b: 200, c: 300},
-        {description: 'small', a: 4, b: 0.5, c: 0.6},
-        {description: 'large', a: 400, b: 500, c: 600},
-        {description: 'unique', a: 'hi', b: true, c: false},
-        ]
+        score.each do |key, value|
+            puts "k: #{key}, v: #{value}" 
 
-        answer = array_of_hashes.group_by {|h| h[:description]}.values
-        answer.map! {|first, *rest|
-        if rest.empty?
-            first
-        else
-            first.dup.tap {|sum|
-            rest.each {|h| sum[:b] += h[:b]; sum[:c] += h[:c]}}
-        end
-        }
+            sum = sum.to_i + value.to_i
 
-        #score.select { |key, val| key == "games" }
+            puts "Sum: #{sum}"
+            #puts score.inspect
+            #sum += value
+            #puts sum
+        end 
 
-        #score.replace( [{ score.first.keys.first => score.reduce(0) {|s, v| s + v.values.first.to_i } }] )
+        #score2.each_with_index do |(key, value), i|
+        #    puts "k: #{key}, v: #{value}" 
+        #    #puts score.inspect
+        #end 
 
     end
 
@@ -116,3 +123,4 @@ end
 
 obj = Tournament.new
 obj.teams()
+obj.schedule()
