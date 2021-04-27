@@ -1,6 +1,6 @@
 class Tournament
     
-    attr_accessor :teamsname, :count, :pointsgamea, :pointsgameb, :matches, :score, :score2, :team_count
+    attr_accessor :teamsname, :count, :pointsgamea, :pointsgameb, :matches, :score, :score2, :team_count, :totpoints
 
     def initialize()
         # Constants 
@@ -14,8 +14,9 @@ class Tournament
         @pointsgameb = 0
         @teamsname = []
         @matches = {}
-        @score = {}
-        @score2 = {}
+        @score = []
+        @score2 = []
+        @totpoints = {}
         
     end
 
@@ -67,7 +68,14 @@ class Tournament
         end
 
         x=0
-        sum = 0
+
+        def sum(list, indices)
+            sum = 0
+            indices.each do |index|
+                sum += list[index]
+            end
+           return sum
+        end
 
         matches.each_with_index do |(key, value), i|
             puts "k: #{key}, v: #{value}" 
@@ -89,33 +97,29 @@ class Tournament
                 pointsgameb = @WIN
             end
             #score.store("#{x}", :description=>'games', :"#{couple[0]}"=>pointsgamea, :"#{couple[1]}"=>pointsgameb)
-            puts "#{pointsgamea} + #{pointsgameb}"
+            #puts "#{pointsgamea} + #{pointsgameb}"
             #score.store("#{x}", :"#{couple[0]}"=>pointsgamea)
             #score2.store("#{x}", :"#{couple[1]}"=>pointsgameb)
-            score.store("#{x}", "#{couple[0]}"=>pointsgamea, "#{couple[1]}"=>pointsgameb)
+            #score.store("#{x}", "#{couple[0]}"=>pointsgamea, "#{couple[1]}"=>pointsgameb)
+            score.push(["#{couple[0]}",pointsgamea])
+            score.push(["#{couple[1]}",pointsgameb])
             x+=1
         end
         
         #score.to_a
+
+        #score = {:a=>1, :a=>3, :b=>0, :b=>1, :c=>0, :c=>3}
+        #score2 = {:b=>1, :c=>0, :c=>3}
+
+        pp score.each_with_object(Hash.new(0)) { |(k, v), h| h[k] += v }
+        #pp score2
+        #pp score.transpose.map(&:sum)
         
-        #newscore = score.merge(score2) {|key, old_val, new_val| old_val < new_val ? old_val : new_val}
-        #newscore = score.merge(score2)
-
-        score.each do |key, value|
-            puts "k: #{key}, v: #{value}" 
-
-            sum = sum.to_i + value.to_i
-
-            puts "Sum: #{sum}"
-            #puts score.inspect
-            #sum += value
-            #puts sum
-        end 
-
-        #score2.each_with_index do |(key, value), i|
-        #    puts "k: #{key}, v: #{value}" 
+        #arr.each do |key, value|
+        #    puts "k2: #{key}, v2: #{value}" 
         #    #puts score.inspect
-        #end 
+        #end
+
 
     end
 
