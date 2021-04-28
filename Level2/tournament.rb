@@ -16,7 +16,7 @@ class Tournament
         @matches = {}
         @score = []
         @score2 = []
-        @totpoints = {}
+        @totpoints = []
         
     end
 
@@ -67,59 +67,42 @@ class Tournament
             end
         end
 
-        x=0
-
-        def sum(list, indices)
-            sum = 0
-            indices.each do |index|
-                sum += list[index]
-            end
-           return sum
-        end
-
         matches.each_with_index do |(key, value), i|
-            puts "k: #{key}, v: #{value}" 
+            #puts "k: #{key}, v: #{value}" 
             couple = key.split("*")
             gameresult = value.split("*")
-            #puts "Cou: #{couple}, GR: #{gameresult}" 
             
-            if(gameresult[0].to_i > gameresult[1].to_i)
-                #score.store("#{x}", :description=>'games', :"#{couple[0]}"=>@WIN.to_i, :"#{couple[1]}"=>@LOSE.to_i)
+            if(gameresult[0].to_i > gameresult[1].to_i)                
                 pointsgamea = @WIN
                 pointsgameb = @LOSE
-            elsif(gameresult[0].to_i == gameresult[1].to_i)
-                #score.store("#{x}", :description=>'games', :"#{couple[0]}"=>@DRAW.to_i, :"#{couple[1]}"=>@DRAW.to_i)
+            elsif(gameresult[0].to_i == gameresult[1].to_i)            
                 pointsgamea = @DRAW
                 pointsgameb = @DRAW
-            else
-                #score.store("#{x}", :description=>'games', :"#{couple[0]}"=>@LOSE.to_i, :"#{couple[1]}"=>@WIN.to_i)
+            else                
                 pointsgamea = @LOSE
                 pointsgameb = @WIN
             end
-            #score.store("#{x}", :description=>'games', :"#{couple[0]}"=>pointsgamea, :"#{couple[1]}"=>pointsgameb)
-            #puts "#{pointsgamea} + #{pointsgameb}"
-            #score.store("#{x}", :"#{couple[0]}"=>pointsgamea)
-            #score2.store("#{x}", :"#{couple[1]}"=>pointsgameb)
-            #score.store("#{x}", "#{couple[0]}"=>pointsgamea, "#{couple[1]}"=>pointsgameb)
             score.push(["#{couple[0]}",pointsgamea])
             score.push(["#{couple[1]}",pointsgameb])
-            x+=1
         end
         
-        #score.to_a
-
-        #score = {:a=>1, :a=>3, :b=>0, :b=>1, :c=>0, :c=>3}
-        #score2 = {:b=>1, :c=>0, :c=>3}
-
-        pp score.each_with_object(Hash.new(0)) { |(k, v), h| h[k] += v }
-        #pp score2
-        #pp score.transpose.map(&:sum)
+        # Sum teams point
+        totpoints = score.each_with_object(Hash.new(0)) { |(k, v), h| h[k] += v }
         
-        #arr.each do |key, value|
-        #    puts "k2: #{key}, v2: #{value}" 
-        #    #puts score.inspect
-        #end
+        # Sort 
+        arrsort = totpoints.sort_by{ |k,v| "Team #{v} " }.reverse
 
+        puts "\n########### Final Tournament Standings ###########\n"
+
+        x = 1
+        # Print Sorted Values
+        arrsort.each_with_index do |(key, value), i|
+            puts "\nPosition #{x} | Team: #{key} | Points: #{value}" 
+            #puts score.inspect
+            x+=1
+        end
+
+        puts "\n##################################################\n"
 
     end
 
