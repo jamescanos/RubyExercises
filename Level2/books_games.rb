@@ -1,6 +1,6 @@
 class Products
     
-    attr_accessor :type, :name, :price, :platform, :category, :discount, :option, :product
+    attr_accessor :type, :name, :price, :platform, :category, :discount, :option, :product, :percent
 
     def initialize()        
         
@@ -8,10 +8,11 @@ class Products
         @price = 0.0
         #@platform
         #@category
-        #@discount
+        @discount = 0.0
         @product = []
         @category = ["Adventure","Romance","Scifi","Horror"]
         @platform = ["PS4","XBox","PC"]
+        @percent = []
     end
 
     def sales
@@ -70,22 +71,72 @@ class Products
 
     def print
 
-        pp product
+        #pp product
+        pp percent
+        #p percent[0].to_i
+        #p percent[1].to_i
 
         product.each_with_index do |(key, title, cost, sfield), i|
 
             if(key == "Book")
                 catplat = category[sfield.to_i-1]
+                labcatplat = "Category"
+                
+                if(percent[0] != nil)
+                    newperc = (percent[0].to_f/100)
+                    p newval = cost.to_f * newperc.to_f
+                    p cost = (cost.to_f-newval.to_f)
+                end
+
             elsif(key == "Game")
                 catplat = platform[sfield.to_i-1]
+                labcatplat = "Platform"
+
+                if(percent[1] != nil)
+                    newperc = (percent[1].to_f/100)
+                    p newval = cost.to_f * newperc.to_f
+                    p cost = (cost.to_f-newval.to_f)
+                end
+                
             end
 
-            puts "Product: #{key}, Name: #{title}, Price: #{cost}, Field: #{catplat}" 
+            puts "\nType: #{key} | Name: #{title} | Price: #{cost} | #{labcatplat}: #{catplat}" 
         end
 
     end
 
     def discount
+
+        x=1
+        j=0
+        prd = ["Books","Games"]
+
+        puts "\nDo you want to apply discount? y/n \n"   
+        option = gets.chomp
+
+        
+        if(option == "y" || option == "yes")
+            
+            puts "\nType the descoint percentage without symbol. Ex: 10" 
+
+            loop do
+                
+                label = prd[j.to_i]
+
+                puts "\n#{label} Discount:\n"   
+                discount = gets.chomp                
+
+                #percent.push(["#{label}","#{discount}"])
+                percent.push("#{discount}")
+
+                if j == x
+                    break
+                end
+                j+=1
+            end
+        end
+
+        print
 
     end
 
@@ -94,3 +145,4 @@ end
 obj = Products.new
 obj.sales
 obj.print
+obj.discount
