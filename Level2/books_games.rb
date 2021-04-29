@@ -18,33 +18,41 @@ class Products
     def sales
 
         puts "\n########### Book & Games Store ###########
-              \nWelcome to Book & Game Store"  
+              \n################ Welcome #################"  
 
         loop do
 
             puts "\nTo add a Book type 1, to add a Game Type 2"   
 
-            option = gets.chomp.to_i
-
-            puts "\nName: " 
-            name = gets.chomp
-
-            puts "\nPrice: " 
-            price = gets.chomp
+            option = gets.chomp.to_i            
 
             if(option == 1)
 
                 type = "Book"
+
+                puts "\nName: " 
+                name = gets.chomp
+
+                puts "\nPrice: " 
+                price = gets.chomp
 
                 puts "\n########### Categories ###########
                       \nTo add a category, type the code of one of the options below\n1-Adventure\n2-Romance\n3-Scifi\n4-Horror"
 
                 puts "\nCategory: " 
                 field = gets.chomp
+
+                product.push(["#{type}","#{name}","#{price}","#{field}"])
             
             elsif(option == 2)
 
                 type = "Game"
+
+                puts "\nName: " 
+                name = gets.chomp
+
+                puts "\nPrice: " 
+                price = gets.chomp
 
                 puts "\n########### Platforms ###########
                       \nTo add a platform, type the code of one of the options below\n1-PS4\n2-XBox\n3-PC"
@@ -52,57 +60,61 @@ class Products
                 puts "\nCategory: " 
                 field = gets.chomp
 
-            end
+                product.push(["#{type}","#{name}","#{price}","#{field}"])
             
-            product.push(["#{type}","#{name}","#{price}","#{field}"])
+            elsif(option !=1 || option !=2)
+                #print "Invalid Option, Type '1' to add a book, '2' to add a game \n "
+                #product = ([])
+                break
+            end
 
-            puts "\n\nDo you want to add another Product? y/n \n"
+            puts "\nDo you want to add another Product? y/n \n"
 
             resp = gets.chomp
 
             if resp == 'n'
+                print
                 break
             end
             
-
         end
 
     end
 
     def print
 
-        #pp product
-        pp percent
-        #p percent[0].to_i
-        #p percent[1].to_i
+        #p product.length
+        if(product.length != 0)
+            
+            product.each_with_index do |(key, title, cost, sfield), i|
 
-        product.each_with_index do |(key, title, cost, sfield), i|
+                if(key == "Book")
+                    catplat = category[sfield.to_i-1]
+                    labcatplat = "Category"
+                    
+                    if(percent[0] != nil)
+                        newperc = (percent[0].to_f/100)
+                        newval = cost.to_f * newperc.to_f
+                        cost = (cost.to_f-newval.to_f)
+                    end
 
-            if(key == "Book")
-                catplat = category[sfield.to_i-1]
-                labcatplat = "Category"
-                
-                if(percent[0] != nil)
-                    newperc = (percent[0].to_f/100)
-                    newval = cost.to_f * newperc.to_f
-                    cost = (cost.to_f-newval.to_f)
+                elsif(key == "Game")
+                    catplat = platform[sfield.to_i-1]
+                    labcatplat = "Platform"
+
+                    if(percent[1] != nil)
+                        newperc = (percent[1].to_f/100)
+                        newval = cost.to_f * newperc.to_f
+                        cost = (cost.to_f-newval.to_f)
+                    end
+                    
                 end
 
-            elsif(key == "Game")
-                catplat = platform[sfield.to_i-1]
-                labcatplat = "Platform"
-
-                if(percent[1] != nil)
-                    newperc = (percent[1].to_f/100)
-                    newval = cost.to_f * newperc.to_f
-                    cost = (cost.to_f-newval.to_f)
-                end
-                
+                puts "\nType: #{key} | Name: #{title} | Price: #{cost} | #{labcatplat}: #{catplat}" 
             end
-
-            puts "\nType: #{key} | Name: #{title} | Price: #{cost} | #{labcatplat}: #{catplat}" 
+        else
+            print "There's not books or games stored"
         end
-
     end
 
     def discount
@@ -111,32 +123,39 @@ class Products
         j=0
         prd = ["Books","Games"]
 
-        puts "\nDo you want to apply discount? y/n \n"   
-        option = gets.chomp
+        if(product.length != 0)
 
-        
-        if(option == "y" || option == "yes")
+            puts "\nDo you want to apply discount? y/n \n"   
+            option = gets.chomp
+
             
-            puts "\nType the descoint percentage without symbol. Ex: 10" 
-
-            loop do
+            if(option == "y" || option == "yes")
                 
-                label = prd[j.to_i]
+                puts "\nType the descoint percentage without symbol. Ex: 10" 
 
-                puts "\n#{label} Discount:\n"   
-                discount = gets.chomp                
+                loop do
+                    
+                    label = prd[j.to_i]
 
-                #percent.push(["#{label}","#{discount}"])
-                percent.push("#{discount}")
+                    puts "\n#{label} Discount:\n"   
+                    discount = gets.chomp                
 
-                if j == x
-                    break
+                    #percent.push(["#{label}","#{discount}"])
+                    percent.push("#{discount}")
+
+                    if j == x
+                        break
+                    end
+                    j+=1
                 end
-                j+=1
             end
-        end
 
-        print
+            print
+
+        else
+            print "There's not books or games stored"
+            sales
+        end
 
     end
 
@@ -144,5 +163,5 @@ end
 
 obj = Products.new
 obj.sales
-obj.print
+#obj.print
 obj.discount
