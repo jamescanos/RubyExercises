@@ -84,8 +84,8 @@ class Products
                 
                 if(percent[0] != nil)
                     newperc = (percent[0].to_f/100)
-                    p newval = cost.to_f * newperc.to_f
-                    p cost = (cost.to_f-newval.to_f)
+                    newval = cost.to_f * newperc.to_f
+                    cost = (cost.to_f-newval.to_f)
                 end
 
             elsif(key == "Game")
@@ -94,8 +94,8 @@ class Products
 
                 if(percent[1] != nil)
                     newperc = (percent[1].to_f/100)
-                    p newval = cost.to_f * newperc.to_f
-                    p cost = (cost.to_f-newval.to_f)
+                    newval = cost.to_f * newperc.to_f
+                    cost = (cost.to_f-newval.to_f)
                 end
                 
             end
