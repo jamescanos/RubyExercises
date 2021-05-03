@@ -6,7 +6,7 @@ module Similarity
     else
         m = self.length
         n = other.length
-        print "m: #{m} - n: #{n}\n"
+        print "Other - #{other} - m: #{m} - n: #{n}\n"
         return m if n == 0
         return n if m == 0
         d = Array.new(m+1) {Array.new(n+1)}
