@@ -24,13 +24,13 @@ module Logging
 
     def msglevel(msg,level) 
 
-        @levels = ["debug" , "info", "warn", "error" , "fatal"] 
+        levels = ["debug" , "info", "warn", "error" , "fatal"] 
 
         # Validate level in array levels
-        unless @levels.include?(level)
+        unless levels.include?(level)
             raise_exception
         else
-            case @level.upcase
+            case level.upcase
             when "DEBUG"
                 logger.debug("#{msg}")
             when "INFO"
@@ -72,11 +72,10 @@ class Products
         puts "\n########### Book & Games Store ###########
               \n################ Welcome #################"  
 
-        loginfo("Standard Output")
-
         loop do
 
-            puts "\nTo add a Book type 1, to add a Game Type 2"   
+            #puts "\nTo add a Book type 1, to add a Game Type 2"   
+            loginfo("\nTo add a Book type 1, to add a Game Type 2")
 
             option = gets.chomp.to_i            
 
@@ -119,7 +118,8 @@ class Products
             elsif(option !=1 || option !=2)
                 #print "Invalid Option, Type '1' to add a book, '2' to add a game \n "
                 #product = ([])
-                break
+                msglevel("Invalid Option, Type '1' to add a book, '2' to add a game","error")
+                #break
             end
 
             puts "\nDo you want to add another Product? y/n \n"
@@ -179,13 +179,15 @@ class Products
 
         if(product.length != 0)
 
-            puts "\nDo you want to apply discount? y/n \n"   
+            #puts "\nDo you want to apply discount? y/n \n" 
+            loginfo("\nDo you want to apply discount? y/n \n")    
             option = gets.chomp
 
             
             if(option == "y" || option == "yes")
                 
-                puts "\nType the descoint percentage without symbol. Ex: 10" 
+                #puts "\nType the descoint percentage without symbol. Ex: 10" 
+                loginfo("\n\nType the descoint percentage without symbol. Ex: 10")
 
                 loop do
                     
@@ -207,7 +209,8 @@ class Products
             print
 
         else
-            print "There's not books or games stored"
+            #print "There's not books or games stored"
+            msglevel("There's not books or games stored","warn")
             sales
         end
 
