@@ -8,37 +8,40 @@ module Logging
         logger ||= Logger.new(STDOUT)
     end
 
-    def loginfo(msg)
-        logger.level = Logger::INFO
-        logger.info("Info Message #{msg}")
-    end
-
+    # Exception
     def raise_exception  
         begin  
             raise 'An error has occured.'   
         rescue  
-        puts 'Specific level is not part of the list of available level.'  
+            puts 'Specific level is not part of the list of available level.'  
         end 
     end
+
+    def loginfo(msg)
+        logger.level = Logger::INFO
+        logger.info("Info Message #{msg}")
+    end    
 
     def msglevel(msg,level) 
 
         levels = ["debug" , "info", "warn", "error" , "fatal"] 
 
+        # Validate level in array levels
         unless levels.include?(level)
             raise_exception
         else
-            if(level.upcase=="DEBUG")
+            case level.upcase
+            when "DEBUG"
                 logger.debug("#{msg}")
-            elsif(level.upcase=="INFO")
-                logger.info("#{msg}")
-            elsif(level.upcase=="WARN")
+            when "INFO"
+                logger.info("#{msg}")  
+            when "WARN"
                 logger.warn("#{msg}")
-            elsif(level.upcase=="ERROR")
-                logger.error("#{msg}")
-            elsif(level.upcase=="FATAL")
+            when "ERROR"
+                logger.error("#{msg}") 
+            when "FATAL"
                 logger.fatal("#{msg}")
-            end  
+            end
         end
         
     end
@@ -48,8 +51,6 @@ end
 class Messages
     
     include Logging
-    #Now you have access to the method `logger` and the instance variable `@logger`.
-
     logn = Messages.new
 
     logn.loginfo("Standard Output")  
