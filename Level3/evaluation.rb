@@ -41,12 +41,9 @@ module Compare
                 lgthB.times do |j|
                     # if strA ie equal to strB then 0 else 1
                     assign = (strA[i] == strB[j]) ? 0 : 1
-                    count = [
-                        elemarr[j+1] + 1,       # adding
-                        increment + 1,          # removing
-                        elemarr[j] + assign     # replacing
-                        ].min
-                        elemarr[j] = increment
+                               # adding         # removing      # replacing
+                    count = [elemarr[j+1] + 1, increment + 1, elemarr[j] + assign].min
+                    elemarr[j] = increment
                     increment = count
                 end
                 elemarr[lgthB] = count
