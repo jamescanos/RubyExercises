@@ -1,4 +1,4 @@
-class Similarity
+module Similarity
 
     def self.similar(strA, strB)        
         
