@@ -70,9 +70,20 @@ class Book < Product
 
 end
 
-describe Product do
-    it "Team A is winner" do
-      match = Product.new("EquipoA","EquipoB",2,1)
-      expect(match.winner).to eq "EquipoA"
+context "Product" do
+    describe Product do
+        it "Print Product" do
+        product = Product.new("Gray",20000)
+        expect(product.print).to eq nil
+        end
+    end
+end
+
+context "Game" do
+    describe Game do
+        it "Add game" do
+        product = Game.new("Halo",20000,"ps4")
+        expect(product.to_s).to eq true
+        end
     end
 end
