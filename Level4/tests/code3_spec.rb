@@ -70,6 +70,14 @@ class Book < Product
 
 end
 
+
+#Game.new("Halo",1000,"ps4")
+#Game.to_s
+#Book.new("Silence",1000,"horror")
+#Book.to_s
+#obj = Product.new("Gray",2000)
+#obj.print
+
 context "Product" do
     describe Product do
         it "Print Product" do
@@ -82,8 +90,26 @@ end
 context "Game" do
     describe Game do
         it "Add game" do
-        product = Game.new("Halo",20000,"ps4")
-        expect(product.to_s).to eq true
+        product = Game.new("Halo",20000,"pc")
+        expect(product.to_s).to eq "Game - Halo - $20000.00 - pc"
+        end
+    end
+end
+
+context "Discounts" do
+    describe Product do
+        it "Negative Discount" do
+        product = Product.new("Gray",20000)
+        expect(product.discount(-1)).to eq nil
+        end
+    end
+end
+
+context "Discounts" do
+    describe Product do
+        it "Discount above 1.0" do
+        product = Product.new("Gray",20000)
+        expect(product.discount(1.5)).to eq 0
         end
     end
 end
