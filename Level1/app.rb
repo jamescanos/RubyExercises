@@ -8,16 +8,9 @@ class MegaGreeter
 
   # Say hi to everybody
   def say_hi
-    if @names.nil?
-      return '...'
-    elsif @names.class == Array
-      # @names is a list of some kind, iterate!
-      @names.each do |name|
-        puts "Hello #{name}!"
-      end
-    else
-      return  "Hello #{@names}!"
-    end
+    return '...' if @names.nil?
+    return @names.map { |name| "Hello #{name}!" } if @names.class == Array
+    "Hello #{@names}!"
   end
 
   # Say bye to everybody
@@ -37,7 +30,8 @@ end
 
   if __FILE__ == $0
     mg = MegaGreeter.new
-    puts mg.say_hi
+    var = mg.say_hi
+    puts var.upcase
     puts mg.say_bye
 
     # Change name to be "Zeke"
