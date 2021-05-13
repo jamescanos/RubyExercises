@@ -22,14 +22,16 @@ class MegaGreeter
 
   # Say bye to everybody
   def say_bye
-    if @names.nil?
-      return  "..."
-    elsif @names.class == Array
+    return '...' if @names.nil?
+
+    if @names.class == Array
       # Join the list elements with commas
-      return  "Goodbye #{@names.join(", ")}.  Come back soon!"
-    else
-      return  "Goodbye #{@names}.  Come back soon!"
+      return "Goodbye #{@names.join(", ")}.  Come back soon!"
     end
+
+    # return "Goodbye #{@names.join(", ")}. Come back soon!" if @names.class == Array
+
+    "Goodbye #{@names}. Come back soon!"
   end
 end
 
