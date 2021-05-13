@@ -1,15 +1,15 @@
 class MegaGreeter
     attr_accessor :names
-  
+
     # Create the object
-    def initialize(names = "World")
+    def initialize(names = 'World')
       @names = names
     end
-  
+
     # Say hi to everybody
     def say_hi
       if @names.nil?
-        puts "..."
+        puts '...'
       elsif @names.respond_to?("each")
         # @names is a list of some kind, iterate!
         @names.each do |name|
@@ -19,7 +19,7 @@ class MegaGreeter
         puts "Hello #{@names}!"
       end
     end
-  
+
     # Say bye to everybody
     def say_bye
       if @names.nil?
@@ -32,24 +32,23 @@ class MegaGreeter
       end
     end
   end
-  
-  
+
   if __FILE__ == $0
     mg = MegaGreeter.new
     mg.say_hi
     mg.say_bye
-  
+
     # Change name to be "Zeke"
     mg.names = "Jhon"
     mg.say_hi
     mg.say_bye
-  
+
     # Change the name to an array of names
     mg.names = ["James", "Francisco", "Cesar",
                 "David", "Chris"]
     mg.say_hi
     mg.say_bye
-  
+
     # Change to nil
     mg.names = nil
     mg.say_hi
