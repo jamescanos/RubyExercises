@@ -1,107 +1,122 @@
-class Team
+class Tournament
     
-    attr_accessor :name
+    attr_accessor :teamsname, :count, :team_count
 
-    def initialize(name)
-        @name = name
-        @matches = []
+    def initialize()  
+        @team_count = 0
+        @count = 0
+        @teamsname = []        
     end
 
-    def to_s
-        @name
-    end
+    def teams        
+        
+        team_count = gets.chomp.to_i
 
-    def play(match)
-        @matches << match
+        while team_count != count
+            puts "\nName of Team #{count + 1}?" 
+            @teamsname.push(gets.chomp)
+            @count = count + 1
+        end
+            
     end
 
     def print_results
-        @matches.each do |match|
-        puts match
+        @teamsname.each do |match|
+            puts match
         end
-    end
-
-    def total_points
-        total_points = 0
-        @matches.each do |match|
-            if match.winner == self
-                total_points += 3
-            elsif match.tied?
-                total_points += 1
-            end
-        end
-        return total_points
     end
 
 end
 
 class Match
-    attr_accessor :teamA, :teamB, :goalsA, :goalsB
-    
-    def initialize(teamA, teamB, goalsA, goalsB)
-        @teamA = teamA
-        @teamB = teamB
-        @goalsA = goalsA
-        @goalsB = goalsB
+
+    attr_accessor :pointsgamea, :pointsgameb, :matches, :score, :score2, :totpoints, :allteams
+
+    def initialize()
+        # Constants 
+        @WIN = 3
+        @DRAW = 1
+        @LOSE = 0 
+        
+        @pointsgamea = 0
+        @pointsgameb = 0
+        @matches = {}
+        @score = []
+        @score2 = []
+        @totpoints = []
     end
 
-    def to_s
-        "#{@teamA} #{@goalsA} x #{goalsB} #{teamB}"
-    end
+    def schedule(allteams)       
 
-    def home_team
-        @teamA
-    end
-
-    def away_team
-        @teamB
-    end
-
-    def winner
-        if @goalsA > @goalsB
-            @teamA
-        elsif @goalsB > @goalsA
-            @teamB
-        else
-            nil
+        for i in allteams do
+            for j in allteams do
+                # Can't fixture games with itself
+                if(i != j)
+                    # Can't schedule games played before
+                    if(j > i)
+                        puts "\nTeam #{i} vs Team #{j}"
+                        result = gets.chomp
+                        matches.store("#{i}*#{j}", "#{result}")
+                    end
+                end
+            end
         end
     end
 
-    def tied?
-        self.winner.nil?
+    def totalpoint
+
+        matches.each_with_index do |(key, value), i|
+            couple = key.split("*")
+            gameresult = value.split("*")
+            
+            if(gameresult[0].to_i > gameresult[1].to_i)                
+                pointsgamea = @WIN
+                pointsgameb = @LOSE
+            elsif(gameresult[0].to_i == gameresult[1].to_i)            
+                pointsgamea = @DRAW
+                pointsgameb = @DRAW
+            else                
+                pointsgamea = @LOSE
+                pointsgameb = @WIN
+            end
+            score.push(["#{couple[0]}",pointsgamea])
+            score.push(["#{couple[1]}",pointsgameb])
+        end
+      
+        # Sum teams point
+        @totpoints = score.each_with_object(Hash.new(0)) { |(k, v), h| h[k] += v }
+    end 
+        
+    def print_results
+        # Sort 
+        arrsort = @totpoints.sort_by{ |k,v| "Team #{v} " }.reverse        
+        x = 1
+        # Print Sorted Values
+        arrsort.each_with_index do |(key, value), i|
+            puts "\nPosition #{x} | Team: #{key} | Points: #{value}" 
+            #puts score.inspect
+            x+=1
+        end        
     end
 end
 
-teams = []
+obj = Tournament.new
+puts "\n########### Football Tournament ###########\n
+              \nInstruction: You must entering how many teams will play the tournament. 
+              Each team should have a name and all the teams will play against each other 
+              If a team wins the match, it receives 3 points, if it ties it receives 1 point,
+              and if it loses, it receives no points
+              \n###########################################\n
+              \nHow many Teams will you be entering?"
 
-t1 = Team.new("Sao Paulo")
-t2 = Team.new("Santos")
-t3 = Team.new("Palmeiras")
-t4 = Team.new("Corinthians")
+obj.teams
+#obj.print_results
 
-teams << t1
-teams << t2
-teams << t3
-teams << t4
-
-m1 = Match.new(t1, t2, 2, 0)
-m2 = Match.new(t3, t4, 0, 0)
-m3 = Match.new(t1, t3, 0, 0)
-m4 = Match.new(t2, t4, 2, 1)
-m5 = Match.new(t1, t4, 2, 2)
-m6 = Match.new(t2, t3, 2, 2)
-
-t1.play(m1)
-t1.play(m3)
-t1.play(m5)
-t2.play(m1)
-t2.play(m4)
-t2.play(m6)
-t3.play(m2)
-t3.play(m3)
-t3.play(m6)
-t4.play(m2)
-t4.play(m4)
-t4.play(m5)
-
-teams.sort_by(&:total_points).reverse.each {|t| puts "#{t.name}: #{t.total_points}"}
+nMatch = Match.new
+puts "\n########### Team Matches ###########
+              \nPlease enter Match result separated by asterisk (*). Ex: 2*1, 0*1, 1*1 "
+nMatch.schedule(obj.teamsname)
+nMatch.totalpoint
+puts "\n########### Final Tournament Standings ###########\n"
+nMatch.print_results
+puts "\n##################################################\n"
