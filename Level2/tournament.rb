@@ -110,7 +110,6 @@ puts "\n########### Football Tournament ###########\n
               \nHow many Teams will you be entering?"
 
 obj.teams
-#obj.print_results
 
 nMatch = Match.new
 puts "\n########### Team Matches ###########
