@@ -78,27 +78,27 @@ end
 #obj = Product.new("Gray",2000)
 #obj.print
 
-context "Product" do
+context ".Product" do
     describe Product do
-        it "Print Product" do
+        it "#print" do
         product = Product.new("Gray",20000)
         expect(product.print).to eq nil
         end
     end
 end
 
-context "Game" do
+context ".Game" do
     describe Game do
-        it "Add game" do
+        it "#to_s" do
         product = Game.new("Halo",20000,"pc")
         expect(product.to_s).to eq "Game - Halo - $20000.00 - pc"
         end
     end
 end
 
-context "Discounts" do
+context ".Discounts" do
     describe Product do
-        it "Negative Discount" do
+        it "#discount" do
         product = Product.new("Gray",20000)
         expect(product.discount(-1)).to eq nil
         end
@@ -109,7 +109,7 @@ context "Discounts" do
     describe Product do
         it "Discount above 1.0" do
         product = Product.new("Gray",20000)
-        expect(product.discount(1.5)).to eq 0
+        expect(product.discount(1.5)).to eq nil
         end
     end
 end

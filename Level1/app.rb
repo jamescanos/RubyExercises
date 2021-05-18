@@ -1,4 +1,5 @@
 class MegaGreeter
+<<<<<<< HEAD
   attr_accessor :names
 
   # Create the object
@@ -20,6 +21,41 @@ class MegaGreeter
     if @names.class == Array
       # Join the list elements with commas
       return "Goodbye #{@names.join(", ")}.  Come back soon!"
+=======
+    attr_accessor :names
+  
+    # Create the object
+    def initialize(names = "World")
+      @names = names
+    end
+  
+    # Say hi to everybody
+    def say_hi
+      if @names.nil?
+        return '...'
+      elsif @names.class == Array
+        # @names is a list of some kind, iterate!
+        @names.each do |name|
+          puts "Hello #{name}!"
+        end
+      else
+        return  "Hello #{@names}!"
+      end
+      return '...' if @names.nil?
+      return @names.map { |name| "Hello #{name}!" } if @names.class == Array
+      "Hello #{@names}!"
+    end
+  
+    # Say bye to everybody
+    def say_bye
+      return '...' if @names.nil?
+      if @names.class == Array
+        # Join the list elements with commas
+        return "Goodbye #{@names.join(", ")}.  Come back soon!"
+      end
+      # return "Goodbye #{@names.join(", ")}. Come back soon!" if @names.class == Array
+      "Goodbye #{@names}. Come back soon!"
+>>>>>>> 2cd44c7 (Changes after Cesar verification)
     end
 
     # return "Goodbye #{@names.join(", ")}. Come back soon!" if @names.class == Array

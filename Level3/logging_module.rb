@@ -51,19 +51,16 @@ end
 class Messages
     
     include Logging
-    logn = Messages.new
-
-    logn.loginfo("Standard Output")  
-
-    logn.msglevel("I'm a debug log","debug")
-    logn.msglevel("I'm a info log","info")
-    logn.msglevel("I'm a warn log","warn")
-    logn.msglevel("I'm a error log","error")
-    logn.msglevel("I'm a fatal log","fatal")
-
-    logn.msglevel("I'm a fatal log","other")
 
 end
 
-#obj = Messages.new
-#obj.loginfo("I'm a debug log jj") 
+logn = Messages.new
+logn.loginfo("Standard Output")  
+
+logn.msglevel("I'm a debug log","debug")
+logn.msglevel("I'm a info log","info")
+logn.msglevel("I'm a warn log","warn")
+logn.msglevel("I'm a error log","error")
+logn.msglevel("I'm a fatal log","fatal")
+
+logn.msglevel("I'm a fatal log","other")
