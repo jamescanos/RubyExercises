@@ -12,7 +12,7 @@ class Product
 
     def discount(value)
         #puts value
-        @price * (1 - value) if(DISCOUNT_RANGE.include?(value))
+        @price = @price * (1 - value) if(DISCOUNT_RANGE.include?(value))
         #puts @price
     end
 
