@@ -1,6 +1,6 @@
 class Product
     
-    VALID_DISCOUNT_RANGE = (0.0..1.0)
+    DISCOUNT_RANGE = (0.0..1.0)
 
     attr_accessor :name, :price, :product
 
@@ -10,16 +10,14 @@ class Product
         #@product = []        
     end
 
-    def discount(discount_value)
-        @price * (1 - discount_value) if(VALID_DISCOUNT_RANGE.include?(discount_value))
-    end
-
-    def to_s
-        "#{self.class.name} - #{@name} - $#{'%.2f' % @price}"
+    def discount(value)
+        #puts value
+        @price * (1 - value) if(DISCOUNT_RANGE.include?(value))
+        #puts @price
     end
 
     def print
-        puts self.to_s
+        puts "#{@name} - $#{'%.2f' % @price}"
     end  
 end
 
@@ -50,7 +48,7 @@ end
 
 class Book < Product
 
-    CATEGORIES = [:adventure, :scifi, :romance, :horror]
+    CATEGORIES = [:adventure, :horror, :romance, :scifi]
 
     def initialize(name, price, category)
 
@@ -73,26 +71,20 @@ end
 #obj = Games.new
 
 p1 = Product.new("Halo",30000)
-p1.print
-p1.discount(10000)
+#p1.print
+p1.discount(0.5)
 p1.print
 
 g1 = Game.new("Halo",80000,:pc)
 g2 = Game.new("Final Fantasy",30000,:pc)
 
-b1 = Book.new("El Principito",30000,:adventure)
-b2 = Book.new("Cien Años de Soledad",30000,:pc)
+b1 = Book.new("El Principito",75000,:adventure)
+b2 = Book.new("Cien Años de Soledad",90000,:pc)
 
+g1.discount(0.5)
 g1.print
 g2.print
 
+b1.discount(0.3)
 b1.print
 b2.print
-
-
-#g = Games.new
-#g.plat(obj.product[0],obj.product[1],"xbox")
-
-#obj.print_results
-#obj.print
-#obj.discount
