@@ -1,5 +1,4 @@
 =begin
-
     Create a method that, given two strings A and B, it returns the amount of modifications (adding,
     removing or replacing a character) required to turn A into B. If A and B are equals, the method
     should return 0. It should be used as:
@@ -7,7 +6,6 @@
     “bananas”.distance_to(“ananas”) # => 1
     “parrot”.distance_to(“parrot”) # => 0
     “parrot”.distance_to(“torrap”) # => 4
-
 =end
 module Compare
 
